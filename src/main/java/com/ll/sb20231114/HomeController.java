@@ -215,7 +215,9 @@ public class HomeController {  // 객체는 딱 하나.
     String showCalc20(){       // 이때 이걸 쓰고 싶으면 thymeleaf 를 추가해야 함.
         return "calc20";
     }
+
 // html 파일에선 자바 문법 못씀
+
     @GetMapping("/calc21")
     String showCalc21(Model model){ //여기서 모델이 뭥미?
         model.addAttribute("v1","안녕"); // Model 객체에 v1이라는 속성을 추가, 값으로 "안녕" 설정.
