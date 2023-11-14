@@ -3,6 +3,7 @@ package com.ll.sb20231114;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -126,12 +127,100 @@ public class HomeController {
             String name, int age
     ) {
         List<Person2> persons = new ArrayList<>() {{ // 중괄호 하나는 생성자 즉 익명클래스 안에 생성자 있다는 것.
-            add(new Person2(name , age));
-            add(new Person2(name + "!", age +1));
-            add(new Person2(name + "!!", age +2));
+            add(new Person2(name, age));
+            add(new Person2(name + "!", age + 1));
+            add(new Person2(name + "!!", age + 2));
         }};
 
         return persons;
+    }
+
+    @GetMapping("/calc14")
+    @ResponseBody
+    String showCalc14() {
+        String html = "";
+
+        html += "<div>";
+        html += "<input type = \"test\" placeholder = \"내용\">"; // "\"" 역슬래시를 붙여 따옴표가 문법형식으로 쓰인게 아니라는걸 표시  == " 으로 출력됨
+        html += "</div>";
+
+        return html;
+    }
+
+    @GetMapping("/calc15")
+    @ResponseBody
+    String showCalc15() {
+        StringBuilder sb = new StringBuilder();  // 문자열을 세개네개 붙여야 할때, 문자의 불변성때문에 스트링빌더를 만들어서 사용
+        String html = "";
+
+        html += "<div>";
+        html += "<input type = \"test\" placeholder = \"내용\">"; // "\"" 역슬래시를 붙여 따옴표가 문법형식으로 쓰인게 아니라는걸 표시  == " 으로 출력됨
+        html += "</div>";
+
+        return html;
+    }
+
+    @GetMapping("/calc16")
+    @ResponseBody
+    String showCalc16() {
+        StringBuilder sb = new StringBuilder();  // 문자열을 세개네개 붙여야 할때, 문자의 불변성때문에 스트링빌더를 만들어서 사용
+        String html = "<div><input type = \"test\" placeholder = \"내용\"></div>";
+
+        return html;
+    }
+
+    @GetMapping("/calc17")
+    @ResponseBody
+    String showCalc17() {
+        String html = """
+                <div>
+                    <input type = \"test\" placeholder = \"내용\">
+                </div>
+                               """;
+
+        return html;
+    }
+
+    @GetMapping("/calc18")
+    @ResponseBody
+    String showCalc18(@RequestParam(defaultValue = "") String content) {
+        // if (content == null) content = ""; 이거랑 디폴트벨류랑 같음.
+        String html = """
+                <div>
+                    <input type = \"test\" placeholder = \"내용\" value = %s">
+                </div>
+                               """.formatted(content);
+
+        return html;
+    }
+
+    @GetMapping("/calc19")
+    @ResponseBody
+    String showCalc19(@RequestParam(defaultValue = "") String content,
+                      @RequestParam(defaultValue = "") String subject) {
+        // if (content == null) content = ""; 이거랑 디폴트벨류랑 같음.
+        String html = """
+                <div>
+                    <input type = \"test\" placeholder = \"내용\" value = %s">
+                </div>
+                <div>
+                    <input type = \"test\" placeholder = \"내용\" value = %s">
+                </div>
+                               """.formatted(subject,content);
+
+        return html;
+    }  // 너무 길어지고 관리 힘들어짐으로 안에 내용은 view 에 토스.
+
+    @GetMapping("/calc20")  // ResponseBody 안 붙이면 resources 안에 템플릿 안에 calc20이 시작됨
+    String showCalc20(){
+        return "calc20";
+    }
+// html 파일에선 자바 문법 못씀
+    @GetMapping("/calc21")
+    String showCalc21(Model model){ //여기서 모델이 뭥미?
+        model.addAttribute("v1","안녕");
+        model.addAttribute("v2","반가워");
+        return "calc21";
     }
 }
 
@@ -140,7 +229,7 @@ public class HomeController {
 
 @AllArgsConstructor // 모든걸 생성자로!
 class Person {
-    private String name;
+    public String name;
     public int age;
 }
 
