@@ -4,51 +4,52 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class ArticleController {
-    private Article lastarticle;
+    private Article[] articles = new Article[3];
+    private int articlesLastIndex = -1; // 배열의 길이는 3이지만 아직 아무런 값을 안 넣었을때 다시 0으로 초기화 하기 위함
+                                        // 즉 -1을 초기값으로 설정하여 첫번째 요소를 articles[0] 부터 넣기 위함이다.
 
     @GetMapping("/article/write")
     String showWrite() {
         return "article/write";
     }
 
-//    @GetMapping("/article/dowrite")
-//    String  doWrite(
-//            String title,
-//            String body
-//    ) {
-//        return "게시물이 작성되었습니다.";
-//    }
-
-//    @GetMapping("/article/dowrite")
-//    Article doWrite(
-//            long id,
-//            String title,
-//            String body
-//    ) {
-//        Article = new Article(1, title, body);
-//
-//        return article;
-//    }
-
-    @GetMapping("/article/dowrite")
+    @GetMapping("/article/doWrite")
+    @ResponseBody // 여기는 리턴을 html로 안했으니까 이걸 써줘야함
     Map<String, Object> doWrite(
-            long id,
             String title,
             String body
     ) {
+        Article article = new Article(articlesLastIndex + 2, title, body);
+
         Map<String, Object> rs = new HashMap<>();
-        lastarticle = new Article(1, title, body);
-        rs.put("msg","%1번 게시물이 작성되었습니다.");
-        rs.put("data", lastarticle);
+        rs.put("msg","%d번 게시물이 작성되었습니다.".formatted(article.getId()));
+        rs.put("data", article);
+
+        articles[++articlesLastIndex] = article;
+
 
         return rs;
     }
+
+    @GetMapping("/article/getLastArticle")
+    @ResponseBody
+    Article getLastArticle() {
+        return articles[articlesLastIndex];
+    }
+
+    @GetMapping("/article/getArticles")
+    @ResponseBody
+    Article[] getArticles() {
+        return articles;
+    }
+
 }
 
     @AllArgsConstructor
