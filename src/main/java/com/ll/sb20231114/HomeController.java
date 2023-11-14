@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class HomeController {
+public class HomeController {  // 객체는 딱 하나.
 
     @GetMapping("/")
     @ResponseBody
@@ -212,15 +212,26 @@ public class HomeController {
     }  // 너무 길어지고 관리 힘들어짐으로 안에 내용은 view 에 토스.
 
     @GetMapping("/calc20")  // ResponseBody 안 붙이면 resources 안에 템플릿 안에 calc20이 시작됨
-    String showCalc20(){
+    String showCalc20(){       // 이때 이걸 쓰고 싶으면 thymeleaf 를 추가해야 함.
         return "calc20";
     }
 // html 파일에선 자바 문법 못씀
     @GetMapping("/calc21")
     String showCalc21(Model model){ //여기서 모델이 뭥미?
-        model.addAttribute("v1","안녕");
+        model.addAttribute("v1","안녕"); // Model 객체에 v1이라는 속성을 추가, 값으로 "안녕" 설정.
         model.addAttribute("v2","반가워");
         return "calc21";
+    }
+
+    int num = 0;
+
+    @GetMapping("/calc22")
+    @ResponseBody
+    int showCalc22 () {
+
+        num++;
+
+        return num;
     }
 }
 

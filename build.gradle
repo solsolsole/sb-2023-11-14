@@ -22,8 +22,13 @@ repositories {
 }
 
 dependencies {
+    // 스트링 웹
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // 스트링 타임 리프
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // 액츄에이터
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
